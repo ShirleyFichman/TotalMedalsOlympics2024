@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <header>
+        <header className="m-6 font-bold text-2xl">
           <h1>Olympics 2024 Medal Tracker</h1>
         </header>
         <main>{children}</main>
