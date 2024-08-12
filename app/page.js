@@ -11,6 +11,7 @@ export default function Home() {
   const [totalMedals, setTotalMedals] = useState(0);
   const [ratio, setRatio] = useState(null);
   const [rank, setRank] = useState(null);
+  const [sortedCountriesByRatio, setSortedCountriesByRatio] = useState([]);
 
   useEffect(() => {
     loadCountriesData();
@@ -18,18 +19,15 @@ export default function Home() {
 
   useEffect(() => {
     if (selectedCountry && countries.length > 0 && populationData.length > 0) {
-      const countriesRatios = calculateCountryRatio(countries, populationData);
-      const sortedCountriesByRatio = countriesRatios.sort((a, b) => b.ratio - a.ratio);
-
       const selectedCountryData = sortedCountriesByRatio.find(
-        (item) => item.country_code === selectedCountry
+        (country) => country.country_code === selectedCountry
       );
 
       if (selectedCountryData) {
         setTotalMedals(selectedCountryData.Total);
         setRatio(selectedCountryData.ratio.toFixed(8));
         setRank(sortedCountriesByRatio.findIndex(
-          (item) => item.country_code === selectedCountry
+          (country) => country.country_code === selectedCountry
         ) + 1); // Rank is 1-based
       } else {
         setTotalMedals(0);
@@ -40,12 +38,12 @@ export default function Home() {
   }, [selectedCountry, countries, populationData]);
 
   return (
-    <div>
-      <CountrySelect 
+    <div className="m-6">
+      <CountrySelect
         countries={countries} 
         onSelectCountry={setSelectedCountry} 
       />
-      <CountryDataSections 
+      <CountryDataSections
         selectedCountry={selectedCountry} 
         totalMedals={totalMedals} 
         ratio={ratio} 
@@ -53,21 +51,27 @@ export default function Home() {
       />
     </div>
   );
-
+  
   async function loadCountriesData() {
     try {
       const [medalsData, populationData] = await Promise.all([
         fetchMedalsTotalCSV(),
         fetchPopulationCSV(),
       ]);
-
+  
       setCountries(medalsData);
       setPopulationData(populationData);
+  
+      const countriesRatios = calculateCountryRatio(medalsData, populationData);
+      const sortedCountriesByRatio = countriesRatios.sort((a, b) => b.ratio - a.ratio);
+      setSortedCountriesByRatio(sortedCountriesByRatio);
+  
     } catch (error) {
       console.error('Error loading data:', error);
     }
   }
-
+  
+  
   function calculateCountryRatio(countries, populationData) {
     return countries.map((country) => {
       const population = populationData.find(
