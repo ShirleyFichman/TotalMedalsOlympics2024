@@ -1,6 +1,8 @@
 "use client"
 import { useState, useEffect } from 'react';
 import Papa from 'papaparse';
+import DataSection from './components/DataSection';
+
 
 export default function Home() {
   const [populationData, setPopulationData] = useState([]);
@@ -9,62 +11,6 @@ export default function Home() {
   const [totalMedals, setTotalMedals] = useState(0);
   const [ratio, setRatio] = useState(null);
   const [rank, setRank] = useState(null);
-
-  // useEffect(() => {
-  //   async function fetchMedalsTotalCSV() {
-  //     const response = await fetch('/medals_total.csv');
-  //     const reader = response.body.getReader();
-  //     const result = await reader.read();
-  //     const decoder = new TextDecoder('utf-8');
-  //     const csvData = decoder.decode(result.value);
-
-  //     Papa.parse(csvData, {
-  //       header: true,
-  //       complete: (parsedData) => {
-  //         setCountries(parsedData.data);
-  //       },
-  //     });
-  //   }
-
-  //   async function fetchPopulationCSV() {
-  //     const response = await fetch('/world_population.csv');
-  //     const reader = response.body.getReader();
-  //     const result = await reader.read();
-  //     const decoder = new TextDecoder('utf-8');
-  //     const csvData = decoder.decode(result.value);
-
-  //     Papa.parse(csvData, {
-  //       header: true,
-  //       complete: (parsedData) => {
-  //         setPopulationData(parsedData.data);
-  //       },
-  //     });
-  //   }
-
-  //   fetchMedalsTotalCSV();
-  //   fetchPopulationCSV();
-  // }, []);
-
-  // useEffect(() => {
-  //   if (selectedCountry) {
-  //     const country = countries.find(
-  //       (item) => item.country_code === selectedCountry
-  //     );
-  //     if (country) {
-  //       setTotalMedals(country.Total);
-        
-  //       const population = populationData.find(
-  //         (item) => item.CCA3 === selectedCountry
-  //       );
-  //       if (population) {
-  //         const ratioValue = country.Total / population['2022 Population'] ;
-  //         setRatio(ratioValue.toFixed(8));
-  //       } else {
-  //         setRatio('Population data not available');
-  //       }
-  //     }
-  //   }
-  // }, [selectedCountry, countries, populationData]);
 
   useEffect(() => {
     async function fetchMedalsTotalCSV() {
@@ -152,12 +98,9 @@ export default function Home() {
       </select>
       {selectedCountry && (
         <div>
-          <h2>Total Medals</h2>
-          <p>{totalMedals}</p>
-          <h2>Medals per Person</h2>
-          <p>{ratio !== null ? ratio : 'Loading...'}</p>
-          <h2>Rank</h2>
-          <p>{rank !== null ? rank : 'Loading...'}</p>
+          <DataSection title="Total Medals" value={totalMedals} />
+          <DataSection title="Medals per Person" value={ratio !== null ? ratio : 'Loading...'} />
+          <DataSection title="Rank" value={rank !== null ? rank : 'Loading...'} />
         </div>
       )}
     </div>
