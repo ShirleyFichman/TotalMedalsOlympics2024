@@ -4,7 +4,7 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Total Medals Olympics 2024 App",
+  title: "Olympics 2024 Medal Tracker",
   description: "Track the total medals for countries in the 2024 Olympics.",
 };
 
