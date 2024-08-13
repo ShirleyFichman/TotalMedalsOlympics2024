@@ -1,7 +1,5 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import React from "react";
 
 export const metadata = {
   title: "Olympics 2024 Medal Tracker",
@@ -11,9 +9,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <header className="m-6 font-bold text-2xl">
-          <h1>Olympics 2024 Medal Tracker</h1>
+      <body>
+        <header className="m-6">
+          <h1 className="font-bold text-2xl mb-4">Olympics 2024 Medal Tracker</h1>
+          <h2>
+          Find the rank of nations in the 2024 Olympics by medals per capita
+          </h2>
         </header>
         <main>{children}</main>
       </body>
