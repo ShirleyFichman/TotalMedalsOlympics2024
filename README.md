@@ -7,3 +7,7 @@ https://www.kaggle.com/datasets/iamsouravbanerjee/world-population-dataset
 
 Paris 2024 olympic games:
 https://www.kaggle.com/datasets/piterfm/paris-2024-olympic-summer-games
+
+## Run Tests
+
+To run tests with Jest - ```npm test```
