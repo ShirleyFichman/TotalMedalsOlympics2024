@@ -1,4 +1,5 @@
 "use client"
+import React from "react";
 import { useState, useEffect } from 'react';
 import CountryDataSections from './components/DataSection';
 import CountrySelect from './components/CountrySelect';
@@ -9,7 +10,6 @@ export default function Home() {
   const [countries, setCountries] = useState([]);
   const [selectedCountry, setSelectedCountry] = useState('');
   const [totalMedals, setTotalMedals] = useState(0);
-  const [ratio, setRatio] = useState(null);
   const [rank, setRank] = useState(null);
   const [sortedCountriesByRatio, setSortedCountriesByRatio] = useState([]);
 
@@ -25,33 +25,16 @@ export default function Home() {
 
       if (selectedCountryData) {
         setTotalMedals(selectedCountryData.Total);
-        setRatio(selectedCountryData.ratio.toFixed(8));
         setRank(sortedCountriesByRatio.findIndex(
           (country) => country.country_code === selectedCountry
         ) + 1); // Rank is 1-based
       } else {
         setTotalMedals(0);
-        setRatio('Population data not available');
         setRank(null);
       }
     }
   }, [selectedCountry, countries, populationData]);
 
-  return (
-    <div className="m-6">
-      <CountrySelect
-        countries={countries} 
-        onSelectCountry={setSelectedCountry} 
-      />
-      <CountryDataSections
-        selectedCountry={selectedCountry} 
-        totalMedals={totalMedals} 
-        ratio={ratio} 
-        rank={rank} 
-      />
-    </div>
-  );
-  
   async function loadCountriesData() {
     try {
       const [medalsData, populationData] = await Promise.all([
@@ -71,7 +54,6 @@ export default function Home() {
     }
   }
   
-  
   function calculateCountryRatio(countries, populationData) {
     return countries.map((country) => {
       const population = populationData.find(
@@ -87,4 +69,18 @@ export default function Home() {
       return null;
     }).filter(Boolean);
   }
+
+  return (
+    <div className="mx-6 my-10">
+      <CountrySelect
+        countries={countries} 
+        onSelectCountry={setSelectedCountry} 
+      />
+      <CountryDataSections
+        selectedCountry={selectedCountry} 
+        totalMedals={totalMedals} 
+        rank={rank} 
+      />
+    </div>
+  );
 }
