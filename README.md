@@ -1,3 +1,6 @@
+## Olympics 2024 Medal Tracker
+Find the rank of nations in the 2024 Olympics by medals per capita, offering a fair comparison of performance relative to population size.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Sources of Information
