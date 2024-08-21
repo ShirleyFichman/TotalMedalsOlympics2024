@@ -11,10 +11,10 @@ function parseCSV(csvData) {
 async function fetchMedalsTotalCSV() {
   try {
     const response = await fetch('/medals_total.csv');
-    const reader = response.body.getReader();
-    const result = await reader.read();
-    const decoder = new TextDecoder('utf-8');
-    const csvData = decoder.decode(result.value);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const csvData = await response.text(); 
 
     const parsedData = parseCSV(csvData);
     parsedData.sort((a, b) => a.country_code.localeCompare(b.country_code));
@@ -29,10 +29,10 @@ async function fetchMedalsTotalCSV() {
 async function fetchPopulationCSV() {
   try {
     const response = await fetch('/world_population.csv');
-    const reader = response.body.getReader();
-    const result = await reader.read();
-    const decoder = new TextDecoder('utf-8');
-    const csvData = decoder.decode(result.value);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const csvData = await response.text(); 
 
     const parsedData = parseCSV(csvData);
     return parsedData; 
